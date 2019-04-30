@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import marked from "marked";
+import "./style.css";
 
 class Main extends Component {
   state = {
-    markdown: ""
+    markdown: initialMarkdown
   };
 
   updateMarkdown = function(markdown) {
@@ -12,33 +13,81 @@ class Main extends Component {
 
   render() {
     let { markdown } = this.state;
-    console.log(markdown);
-
-    //tomar el contenido del input
-    //procesarlo con marked
-    //devolverlo en el output.
 
     return (
-      <main>
-        <textarea
-          componentClass="textarea"
-          id="editor"
-          rows="10"
-          cols="50"
-          value={markdown}
-          onChange={event => this.updateMarkdown(event.target.value)}
-          placeholder="Escribí algo."
-        />
-        <p id="output"> Output</p>
-        <div
-          id="preview"
-          //dangerouslySetInnerHTML={{ __html: marked(markdown) }}
-        >
-          {marked(markdown)}
+      <main className="flex row">
+        <div className="left flex column center">
+          <h2>Input</h2>
+          <textarea
+            componentClass="textarea"
+            id="editor"
+            rows="40"
+            cols="80"
+            value={markdown}
+            onChange={event => this.updateMarkdown(event.target.value)}
+            placeholder="Escribí algo."
+          >
+            Texto default probando
+          </textarea>
+        </div>
+        <div className="output">
+          <h2 id="output"> Output</h2>
+          <div
+            className="right flex column center"
+            id="preview"
+            dangerouslySetInnerHTML={{ __html: marked(markdown) }}
+          />
         </div>
       </main>
     );
   }
 }
+
+const initialMarkdown = `# Welcome to my React Markdown Previewer!
+
+  ## This is a sub-heading...
+  ### And here's some other cool stuff:
+    
+  Heres some code, \`<div></div>\`, between 2 backticks.
+  
+  \`\`\`
+  // this is multi-line code:
+  
+  function anotherExample(firstLine, lastLine) {
+    if (firstLine == '\`\`\`' && lastLine == '\`\`\`') {
+      return multiLineCode;
+    }
+  }
+  \`\`\`
+    
+  You can also make text **bold**... whoa!
+  Or _italic_.
+  Or... wait for it... **_both!_**
+  And feel free to go crazy ~~crossing stuff out~~.
+  
+  There's also [links](https://www.freecodecamp.com), and
+  > Block Quotes!
+  
+  And if you want to get really crazy, even tables:
+  
+  Wild Header | Crazy Header | Another Header?
+  ------------ | ------------- | ------------- 
+  Your content can | be here, and it | can be here....
+  And here. | Okay. | I think we get it.
+  
+  - And of course there are lists.
+    - Some are bulleted.
+       - With different indentation levels.
+          - That look like this.
+  
+  
+  1. And there are numbererd lists too.
+  1. Use just 1s if you want! 
+  1. But the list goes on...
+  - Even if you use dashes or asterisks.
+  * And last but not least, let's not forget embedded images:
+  
+  ![React Logo w/ Text](https://goo.gl/Umyytc)
+  `;
 
 export default Main;
